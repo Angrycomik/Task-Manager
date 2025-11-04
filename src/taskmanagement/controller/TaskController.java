@@ -1,18 +1,32 @@
 package taskmanagement.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+import taskmanagement.adapter.AppUserAdapter;
+import taskmanagement.entity.Task;
+import taskmanagement.service.TaskService;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/tasks")
 public class TaskController {
 
-    @GetMapping("/tasks")
-    @ResponseStatus(HttpStatus.OK)
-    public void getAllTasks(){
-        return;
+    TaskService taskService;
+
+    public TaskController(@Autowired TaskService taskService) {
+        this.taskService = taskService;
+    }
+
+    @GetMapping
+    public List<Task> getAllTasks(@RequestParam(required = false) String author){
+        return taskService.getAllTasks(author);
+    }
+
+    @PostMapping
+    public Task createTask(@Valid @RequestBody Task task, @AuthenticationPrincipal AppUserAdapter user){
+        return taskService.saveTask(task, user.getUsername());
     }
 }
