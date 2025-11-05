@@ -3,8 +3,8 @@ package taskmanagement.controller;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import taskmanagement.dto.ChangeAssigneeRequestDto;
 import taskmanagement.entity.Task;
 import taskmanagement.service.TaskService;
 
@@ -28,5 +28,10 @@ public class TaskController {
     @PostMapping
     public Task createTask(@Valid @RequestBody Task task, Authentication authentication){
         return taskService.saveTask(task, authentication.getName());
+    }
+
+    @PutMapping
+    public Task updateTask(@RequestBody ChangeAssigneeRequestDto assignee, @RequestParam Integer id, Authentication authentication){
+        return taskService.updateTask(id, assignee.assignee(), authentication.getName());
     }
 }

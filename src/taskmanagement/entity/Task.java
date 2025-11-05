@@ -24,6 +24,8 @@ public class Task {
 
     private String author;
 
+    private String assignee;
+
     public String getId() {
         return String.valueOf(id);
     }
@@ -62,5 +64,12 @@ public class Task {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public String getAssignee() {
+        return assignee;
+    }
+    public void setAssignee(String assignee) {
+        this.assignee = assignee;
     }
 }
