@@ -34,4 +34,8 @@ public class UserService implements UserDetailsService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         repository.save(user);
     }
+
+    public boolean userExists(String email){
+        return repository.existsByEmail(email);
+    }
 }
