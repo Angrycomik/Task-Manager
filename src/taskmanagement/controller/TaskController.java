@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import taskmanagement.dto.AddCommentRequestDto;
 import taskmanagement.dto.ChangeAssigneeRequestDto;
 import taskmanagement.dto.ChangeStatusRequestDto;
 import taskmanagement.entity.Task;
@@ -38,5 +39,10 @@ public class TaskController {
     @PutMapping("/{taskId}/status")
     public Task updateTaskStatus(@Valid @RequestBody ChangeStatusRequestDto status, @PathVariable Integer taskId, Authentication authentication){
         return taskService.updateTaskStatus(taskId, status.getStatus(), authentication.getName());
+    }
+
+    @PostMapping("/{taskId}/comments")
+    public void addComment(@Valid @RequestBody AddCommentRequestDto comment, @PathVariable Integer taskId, Authentication authentication){
+        taskService.addComment(comment.getText(), taskId, authentication.getName());
     }
 }

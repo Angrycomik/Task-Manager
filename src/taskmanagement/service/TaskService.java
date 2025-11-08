@@ -63,5 +63,8 @@ public class TaskService {
         if(taskOptional.isEmpty()){throw new NoSuchElementException("Task Not Found");}
         return taskOptional.get();
     }
+
+    public void addComment(String comment, Integer id, String username) {
+    }
 }
 
