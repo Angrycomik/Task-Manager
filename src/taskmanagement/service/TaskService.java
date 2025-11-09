@@ -2,8 +2,10 @@ package taskmanagement.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import taskmanagement.entity.Comment;
 import taskmanagement.entity.Task;
 import taskmanagement.exception.ForbiddenException;
+import taskmanagement.repository.CommentRepository;
 import taskmanagement.repository.TaskRepository;
 
 import java.util.List;
@@ -15,10 +17,12 @@ import java.util.Optional;
 public class TaskService {
     TaskRepository taskRepository;
     UserService userService;
+    CommentRepository commentRepository;
 
-    public TaskService(@Autowired TaskRepository taskRepository,  @Autowired UserService userService) {
+    public TaskService(@Autowired TaskRepository taskRepository,  @Autowired UserService userService, CommentRepository commentRepository) {
         this.taskRepository = taskRepository;
         this.userService = userService;
+        this.commentRepository = commentRepository;
     }
 
     public Task saveTask(Task task, String username){
@@ -64,7 +68,12 @@ public class TaskService {
         return taskOptional.get();
     }
 
-    public void addComment(String comment, Integer id, String username) {
+    public void addComment(String text, Integer taskId, String username) {
+        Task task = getTask(taskId);
+        Comment comment = new Comment(taskId, text, username);
+        commentRepository.save(comment);
+
+
     }
 }
 
